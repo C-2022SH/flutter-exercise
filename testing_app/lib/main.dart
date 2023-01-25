@@ -7,6 +7,15 @@ void main() {
 class MyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: Text("hello!"));
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "test flutter app",
+          ),
+        ),
+        body: Text("this is for testing"),
+      ),
+    );
   }
 }
