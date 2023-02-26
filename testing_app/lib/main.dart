@@ -1,59 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:testing_app/widgets/transactionList.dart';
+import 'package:testing_app/widgets/newTransactionInput.dart';
 
-import 'question.dart';
+import 'models/transaction.dart';
 
-void main() {
-  runApp(_MyApp());
-}
+void main() => runApp(MyApp());
 
-class _MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _MyAppSate();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "Personal Expenses",
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.blueGrey,
+          primaryColorDark: Colors.red,
+        ).copyWith(secondary: Colors.lime),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Colors.blueGrey),
+          bodyLarge: TextStyle(
+            color: Colors.indigo,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+      ),
+      home: MyHomePage(),
+    );
   }
 }
 
-class _MyAppSate extends State<_MyApp> {
-  int _questionIndex = 0;
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
 
-  void _onPressButton() {
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _transactions = [
+    Transaction("t1", "test item one", 10.5, DateTime.now()),
+    Transaction("t2", "test item two", 1.9, DateTime.now()),
+  ];
+
+  void _addNewTransaction(String txTitle, double txAmount) {
+    final newTransaction = Transaction(
+      DateTime.now().toString(),
+      txTitle,
+      txAmount,
+      DateTime.now(),
+    );
+
     setState(() {
-      ++_questionIndex;
+      _transactions.add(newTransaction);
     });
+  }
 
-    print(_questionIndex);
-    print("button is pressed");
+  void _startAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return NewTransactionInput(_addNewTransaction);
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> questions = ["first question", "second question"];
-
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("this is my test app"),
-        ),
-        body: Column(children: [
-          Question(
-            questions[_questionIndex],
-          ),
-          ElevatedButton(
-            onPressed: _onPressButton,
-            child: const Text("this is answer1"),
-          ),
-          ElevatedButton(
-            onPressed: () => print("second button pressed"),
-            child: Text("this is answer2"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              print("third button pressed");
-            },
-            child: Text("this is answer3"),
-          ),
-        ]),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Personal Expenses"),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.add),
+          )
+        ],
       ),
+      body: SingleChildScrollView(
+        child: TransactionList(_transactions),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => _startAddNewTransaction(context),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
