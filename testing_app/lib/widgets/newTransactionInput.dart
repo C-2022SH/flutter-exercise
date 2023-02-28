@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class NewTransactionInput extends StatefulWidget {
   final Function addTransaction;
@@ -12,23 +12,42 @@ class NewTransactionInput extends StatefulWidget {
 
 class _NewTransactionInputState extends State<NewTransactionInput> {
   final _titleController = TextEditingController();
-
   final _amountController = TextEditingController();
+  DateTime? _selectedDate;
 
   void _submitTransaction() {
     final title = _titleController.text;
     final amount = double.parse(_amountController.text);
-    if (title.isEmpty || amount <= 0) {
+    if (title.isEmpty || amount <= 0 || _selectedDate == null) {
       return;
     }
 
     widget.addTransaction(
       title,
       amount,
+      _selectedDate,
     );
 
     // 가장 위에 있는 내비게이터 팝
     Navigator.of(context).pop();
+  }
+
+  void _presentDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2019),
+            lastDate: DateTime.now())
+        .then((pickedDate) {
+      // future 기능
+      if (pickedDate == null) {
+        return;
+      }
+
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
   }
 
   @override
@@ -54,15 +73,34 @@ class _NewTransactionInputState extends State<NewTransactionInput> {
               keyboardType: TextInputType.number,
               onSubmitted: (_) => _submitTransaction(),
             ),
-            TextButton(
+            Container(
+              height: 70,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? "No date chosen"
+                          : DateFormat.yMd().format(_selectedDate!).toString(),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: _presentDatePicker,
+                    child: const Text(
+                      "choose date",
+                      style: TextStyle(color: Colors.green),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ElevatedButton(
               onPressed: () {
                 _submitTransaction();
               },
               child: const Text(
                 "add transaction",
-                style: TextStyle(
-                  color: Colors.green,
-                ),
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ],
