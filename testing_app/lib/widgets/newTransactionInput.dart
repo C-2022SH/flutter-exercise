@@ -52,58 +52,64 @@ class _NewTransactionInputState extends State<NewTransactionInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 10,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              decoration: const InputDecoration(labelText: "title"),
-              controller: _titleController,
-              onSubmitted: (_) =>
-                  _submitTransaction(), // _ means i have to pass some arguments but don't use it
-            ),
-            TextField(
-              decoration: const InputDecoration(labelText: "amount"),
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitTransaction(),
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _selectedDate == null
-                          ? "No date chosen"
-                          : DateFormat.yMd().format(_selectedDate!).toString(),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: _presentDatePicker,
-                    child: const Text(
-                      "choose date",
-                      style: TextStyle(color: Colors.green),
-                    ),
-                  ),
-                ],
+    return SingleChildScrollView(
+      child: Card(
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                decoration: const InputDecoration(labelText: "title"),
+                controller: _titleController,
+                onSubmitted: (_) =>
+                    _submitTransaction(), // _ means i have to pass some arguments but don't use it
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _submitTransaction();
-              },
-              child: const Text(
-                "add transaction",
-                style: TextStyle(color: Colors.white),
+              TextField(
+                decoration: const InputDecoration(labelText: "amount"),
+                controller: _amountController,
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => _submitTransaction(),
               ),
-            ),
-          ],
+              Container(
+                height: 70,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _selectedDate == null
+                            ? "No date chosen"
+                            : DateFormat.yMd()
+                                .format(_selectedDate!)
+                                .toString(),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: _presentDatePicker,
+                      child: const Text(
+                        "choose date",
+                        style: TextStyle(color: Colors.green),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  _submitTransaction();
+                },
+                child: const Text(
+                  "add transaction",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
