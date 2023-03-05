@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:screen_test/ScreenCategories.dart';
+import 'package:screen_test/screens/ScreenCategories.dart';
+import 'package:screen_test/screens/screenDetail.dart';
+import 'package:screen_test/screens/screenGNB.dart';
+import 'package:screen_test/screens/screenRecipe.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,7 +41,22 @@ class MyApp extends StatelessWidget {
             ),
       ),
       // entry point
-      home: ScreenCategories(),
+      home: ScreenGNB(),
+      routes: {
+        "/categories": (context) => ScreenCategories(),
+        "/detail": (context) => ScreenDetail(),
+        "/recipe": (context) => ScreenRecipe(),
+      },
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (ctx) => ScreenCategories(),
+        );
+      },
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (ctx) => ScreenCategories(),
+        );
+      },
     );
   }
 }
