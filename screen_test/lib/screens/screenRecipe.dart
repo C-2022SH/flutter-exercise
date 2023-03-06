@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:screen_test/dummyData.dart';
 
 class ScreenRecipe extends StatelessWidget {
+  final Function toggleFavorite;
+  final Function isFavorite;
+
+  ScreenRecipe(this.toggleFavorite, this.isFavorite);
+
   Widget buildSectionTitle(BuildContext context, String text) {
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -83,6 +88,12 @@ class ScreenRecipe extends StatelessWidget {
             ))
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(isFavorite(id)
+            ? Icons.favorite_rounded
+            : Icons.favorite_border_outlined),
+        onPressed: () => toggleFavorite(id),
       ),
     );
   }
