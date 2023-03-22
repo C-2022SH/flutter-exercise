@@ -4,10 +4,12 @@ import 'package:state_management_test/provider/provider_cart.dart';
 import 'package:state_management_test/provider/provider_orders.dart';
 import 'package:state_management_test/provider/provider_products.dart';
 import 'package:state_management_test/screens/screen_cart.dart';
+import 'package:state_management_test/screens/screen_edit_product.dart';
 import 'package:state_management_test/screens/screen_orders.dart';
 import 'package:state_management_test/screens/screen_product_detail.dart';
 
 import 'package:state_management_test/screens/screen_products_overview.dart';
+import 'package:state_management_test/screens/screen_user_product.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,6 +43,8 @@ class MyApp extends StatelessWidget {
           "/productDetail": (context) => ScreenProductDetail(),
           "/cart": (context) => ScreenCart(),
           "/orders": (context) => ScreenOrders(),
+          "/userProducts": (context) => ScreenUserProduct(),
+          "/editProduct": (context) => ScreenEditProduct(),
         },
       ),
     );

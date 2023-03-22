@@ -64,6 +64,28 @@ class ProviderCart with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeSingleItem(String id) {
+    if (!_items.containsKey(id)) {
+      return;
+    }
+
+    if (_items[id]!.quantity > 1) {
+      _items.update(
+        id,
+        (value) => CartItem(
+          id: id,
+          title: value.title,
+          quantity: value.quantity - 1,
+          price: value.price,
+        ),
+      );
+    } else {
+      _items.remove(id);
+    }
+
+    notifyListeners();
+  }
+
   void clear() {
     _items.clear();
     notifyListeners();
