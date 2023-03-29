@@ -197,9 +197,9 @@ class _ScreenEditProductState extends State<ScreenEditProduct> {
                     ),
                     child: _imageUrlController.text.isEmpty
                         ? const Text("enter a url")
-                        : FittedBox(
+                        : Container(
                             child: Image.network(_imageUrlController.text),
-                            fit: BoxFit.scaleDown,
+                            //fit: BoxFit.scaleDown,
                           ),
                   ),
                   Expanded(
